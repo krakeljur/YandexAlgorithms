@@ -171,7 +171,7 @@ fun isAnagram() {
 fun averageLevel() {
 
     /*
-    * Идея - (разница суммы рейтингов справа от текущего элемента минус нынешний элемент * на кол-во элементов
+    * Идея - (сумма рейтингов справа от текущего элемента минус нынешний элемент * на кол-во элементов
     * справа) + (текущий элемент * количество элементов слева - сумма элементов слева) = текущее недовольство
     * */
 
@@ -179,9 +179,9 @@ fun averageLevel() {
 
     val studentsRateList = readln().split(" ").map { it.toInt() }.toMutableList()
 
-    var leftSum = studentsRateList[0]
+    var leftSum = 0
 
-    var rightSum = studentsRateList.sum() - leftSum
+    var rightSum = studentsRateList.sum() - studentsRateList[0]
 
 
 
@@ -189,10 +189,12 @@ fun averageLevel() {
 
         val currentElement = studentsRateList[i]
 
-        studentsRateList[i] = (rightSum - (currentElement * (n-1-i))) + (currentElement * (i+1) - leftSum)
-        rightSum -= currentElement
-        leftSum += currentElement
+        studentsRateList[i] = (rightSum - (currentElement * (n-1-i))) + (currentElement * i - leftSum)
 
+        if (i < n-1) {
+            rightSum -= studentsRateList[i+1]
+            leftSum += currentElement
+        }
     }
 
     println(studentsRateList.joinToString(" "))
