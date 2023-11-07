@@ -93,7 +93,6 @@ fun plusFractions() {
 fun moscowTrip() {
 
 
-
     /*
     * Идея - искать три длинны пути и возвращать наименьший:
     * 1. путь прямыми через центер города
@@ -105,11 +104,10 @@ fun moscowTrip() {
     //xa - 0 ya - 1 xb - 2 yb - 3
     val coordinates = readln().split(" ").map { it.toDouble() }
 
-    val rStart = sqrt((coordinates[0]*coordinates[0] + coordinates[1]*coordinates[1]))
-    val rFinish = sqrt((coordinates[2]*coordinates[2] + coordinates[3]*coordinates[3]))
+    val rStart = sqrt((coordinates[0] * coordinates[0] + coordinates[1] * coordinates[1]))
+    val rFinish = sqrt((coordinates[2] * coordinates[2] + coordinates[3] * coordinates[3]))
 
     val lengthTripCenter = rStart + rFinish
-
 
 
     var angle = atan2(coordinates[3], coordinates[2]) - atan2(coordinates[1], coordinates[0])
@@ -120,16 +118,15 @@ fun moscowTrip() {
         angle += 2 * PI
 
     val lengthTripCircleLine = if (rStart > rFinish) {
-        rStart - rFinish + abs(rFinish*angle)
-    } else  if (rFinish == rStart){
-        abs(rFinish*angle)
+        rStart - rFinish + abs(rFinish * angle)
+    } else if (rFinish == rStart) {
+        abs(rFinish * angle)
     } else {
-        rFinish - rStart + abs(rStart*angle)
+        rFinish - rStart + abs(rStart * angle)
     }
 
     println(min(lengthTripCenter, lengthTripCircleLine))
 }
-
 
 
 /*Задано две строки, нужно проверить, является ли одна анаграммой другой. Анаграммой называется строка, полученная
@@ -165,9 +162,6 @@ fun isAnagram() {
 }
 
 
-
-
-
 fun averageLevel() {
 
     /*
@@ -189,10 +183,10 @@ fun averageLevel() {
 
         val currentElement = studentsRateList[i]
 
-        studentsRateList[i] = (rightSum - (currentElement * (n-1-i))) + (currentElement * i - leftSum)
+        studentsRateList[i] = (rightSum - (currentElement * (n - 1 - i))) + (currentElement * i - leftSum)
 
-        if (i < n-1) {
-            rightSum -= studentsRateList[i+1]
+        if (i < n - 1) {
+            rightSum -= studentsRateList[i + 1]
             leftSum += currentElement
         }
     }
@@ -200,5 +194,64 @@ fun averageLevel() {
     println(studentsRateList.joinToString(" "))
 
 
+}
+
+
+fun minLift() {
+
+    /*
+    Идея - идти с верхних этажей, хранить нынешнее количество людей в лифте, высчитывать секунды по индексу
+    этажа и умножать на количество приездов через % и / (остаток от деления и целочисленное деление) :3
+     */
+
+    val maxInLift = readln().toInt()
+    val floors = readln().toInt()
+    val peoples = mutableListOf<Long>()
+
+    for (i in 1..floors) peoples.add(readln().toLong())
+
+    var inLiftNow = 0L
+
+    var ansSeconds: ULong = 0u
+
+
+
+    for (i in peoples.size - 1 downTo 0) {
+
+        if (peoples[i] > 0) {
+
+            if (inLiftNow > 0) {
+                ansSeconds++
+
+                if ((peoples[i] + inLiftNow) % maxInLift == 0.toLong()) {
+                    ansSeconds += (((peoples[i] + inLiftNow) / maxInLift) * (i + 1) * 2 - i - 1).toULong()
+                    inLiftNow = 0
+                } else if ((peoples[i] % maxInLift) + inLiftNow < maxInLift) {
+                    ansSeconds += ((peoples[i] / maxInLift) * (i + 1) * 2).toULong()
+                    inLiftNow += peoples[i] % maxInLift
+                } else if ((peoples[i] % maxInLift) + inLiftNow > maxInLift) {
+                    ansSeconds += (((peoples[i] + inLiftNow) / maxInLift) * (i + 1) * 2).toULong()
+                    inLiftNow = (peoples[i] + inLiftNow) % maxInLift
+                }
+
+
+            } else {
+                ansSeconds += ((peoples[i] / maxInLift) * (i + 1) * 2).toULong()
+                if (peoples[i] % maxInLift != 0.toLong()) {
+                    inLiftNow += peoples[i] % maxInLift
+                    ansSeconds += (i + 1).toULong()
+                }
+            }
+
+
+        } else if (inLiftNow > 0) {
+            ansSeconds++
+        }
+
+    }
+
+    if (inLiftNow > 0) ansSeconds++
+
+    println(ansSeconds)
 
 }
