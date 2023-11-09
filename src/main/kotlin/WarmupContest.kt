@@ -255,3 +255,90 @@ fun minLift() {
     println(ansSeconds)
 
 }
+
+
+fun rabbit() {
+
+    /*
+    * Динамическое программирование
+    *
+    *
+    * */
+    val (n, m) = readln().split(" ").map { it.toInt() }
+
+
+
+}
+
+/*
+* Чтобы оценить качество обучения программированию, в каждой группы студентов подсчитывается
+*  один параметр — суммарное количество решенных студентами задач. Известно, что в первой
+*  группе суммарное количество решенных на контесте задач равно a, а во второй — b.
+*  Всего на контесте было предложено n задач, а также известно, что каждый студент решил
+*  не менее одной (и не более n) задач.
+* По заданным a, b и n определите, могло ли в первой группе быть строго больше студентов, чем во второй.
+*
+* Вводятся три целых числа a, b, n (0 ≤ a, b ≤ 10000, 1 ≤ n ≤ 10000).
+*
+* Выведите "Yes" если в первой группе могло быть строго больше студентов, чем во второй, и "No" в противном случае.
+* */
+fun contestResult() {
+    val groupA = readln().toInt()
+    val groupB = readln().toInt()
+    val maxTask = readln().toInt()
+
+    val aIsBigger = groupA > ((groupB / maxTask) + (if (groupB % maxTask > 0) 1 else 0))
+
+    println( if (aIsBigger) "Yes" else "No")
+
+}
+
+
+/* проверить скобочную последовательность на правильность
+* Идея - использовать стек
+*/
+fun brackets() {
+
+    val s = readln()
+    val openBrackets = setOf('(', '{', '[')
+    val stack = mutableListOf<Char>()
+    var index = 0
+    var isNormal = true
+
+    while (index < s.length && isNormal) {
+
+        when (s[index]) {
+            in openBrackets -> stack.add(s[index])
+            ')' -> {if (stack.isNotEmpty() && stack.last() == '(') stack.removeLast() else isNormal = false}
+            ']' -> {if (stack.isNotEmpty() && stack.last() == '[') stack.removeLast() else isNormal = false}
+            '}' -> {if (stack.isNotEmpty() && stack.last() == '{') stack.removeLast() else isNormal = false}
+        }
+
+        index++
+    }
+
+    println(if (stack.isEmpty() && isNormal) "yes" else "no")
+}
+
+
+/*
+Всего студентов по направлению «Мировая культура» — n человек. Преподаватель дал задание — групповой проект.
+Для выполнения этого задания студенты должны разбиться на группы численностью от a до b человек. Скажите,
+можно ли разбить всех студентов на группы для выполнения проекта или преподаватель что-то перепутал.
+ */
+fun isRealGroup() {
+
+    val t = readln().toInt()
+
+
+    for (i in 1..t) {
+
+        val (people, min, max) = readln().split(" ").map { it.toInt() }
+
+
+
+
+    }
+
+
+}
