@@ -330,15 +330,14 @@ fun isRealGroup() {
 
     val t = readln().toInt()
 
+    val ans = mutableListOf<String>()
 
     for (i in 1..t) {
-
         val (people, min, max) = readln().split(" ").map { it.toInt() }
-
-
-
-
+        ans.add( if ((people % min <= (people / min) * (max-min)) || (people % min <= (people / max) * (max-min))  ) "YES" else "NO")
     }
+
+    ans.forEach { println(it) }
 
 
 }
