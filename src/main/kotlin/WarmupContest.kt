@@ -260,14 +260,41 @@ fun minLift() {
 fun rabbit() {
 
     /*
-    * Динамическое программирование
-    *
-    *
+    * Динамическое программирование 2d
     * */
     val (n, m) = readln().split(" ").map { it.toInt() }
 
+    val gameField = mutableListOf<List<Int>>()
 
+    for (i in 1..n) {
+        gameField.add(readln().split(" ").map { it.toInt() })
+    }
 
+    val dpList = mutableListOf<MutableList<Int>>()
+    var maxSquare = 0
+
+    for (i in 0..<n) {
+        dpList.add(mutableListOf())
+        for (j in 0..<m) {
+            if (gameField[i][j] == 0)
+                dpList[i].add(0)
+            else {
+                if (i == 0 && j == 0)
+                    dpList[i].add(1)
+                else if (i == 0)
+                    dpList[i].add(1)
+                else if (j == 0)
+                    dpList[i].add(1)
+                else {
+                    dpList[i].add(min(dpList[i][j - 1], min(dpList[i - 1][j], dpList[i - 1][j - 1])) + 1)
+                    if (maxSquare < dpList[i][j])
+                        maxSquare = dpList[i][j]
+                }
+            }
+
+        }
+    }
+    println(if (maxSquare > 1) maxSquare else 0)
 }
 
 /*
@@ -289,7 +316,7 @@ fun contestResult() {
 
     val aIsBigger = groupA > ((groupB / maxTask) + (if (groupB % maxTask > 0) 1 else 0))
 
-    println( if (aIsBigger) "Yes" else "No")
+    println(if (aIsBigger) "Yes" else "No")
 
 }
 
@@ -309,9 +336,17 @@ fun brackets() {
 
         when (s[index]) {
             in openBrackets -> stack.add(s[index])
-            ')' -> {if (stack.isNotEmpty() && stack.last() == '(') stack.removeLast() else isNormal = false}
-            ']' -> {if (stack.isNotEmpty() && stack.last() == '[') stack.removeLast() else isNormal = false}
-            '}' -> {if (stack.isNotEmpty() && stack.last() == '{') stack.removeLast() else isNormal = false}
+            ')' -> {
+                if (stack.isNotEmpty() && stack.last() == '(') stack.removeLast() else isNormal = false
+            }
+
+            ']' -> {
+                if (stack.isNotEmpty() && stack.last() == '[') stack.removeLast() else isNormal = false
+            }
+
+            '}' -> {
+                if (stack.isNotEmpty() && stack.last() == '{') stack.removeLast() else isNormal = false
+            }
         }
 
         index++
@@ -334,7 +369,7 @@ fun isRealGroup() {
 
     for (i in 1..t) {
         val (people, min, max) = readln().split(" ").map { it.toInt() }
-        ans.add( if ((people % min <= (people / min) * (max-min)) || (people % min <= (people / max) * (max-min))  ) "YES" else "NO")
+        ans.add(if ((people % min <= (people / min) * (max - min)) || (people % min <= (people / max) * (max - min))) "YES" else "NO")
     }
 
     ans.forEach { println(it) }
