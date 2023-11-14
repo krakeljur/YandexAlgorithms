@@ -40,47 +40,39 @@ fun partition() {
         }
     }
 }
-//TODO("ВАЛИТСЯ НА 13-ом тесте, ИСПРАВИТЬ!!!!")
+
 fun partitionReq(l: Int, r: Int, seq: MutableList<Int>) {
 
-    if (r - l > 1 && seq.subList(l, r + 1).toSet().size > 1) {
+    if (r - l + 1 > 1 && seq.subList(l, r + 1).toSet().size > 1) {
 
         var forSwap = (Math.random() * (r - l + 1)).toInt() + l
         val x = seq[forSwap]
         var n = l
         var eq = l
-        var gr = -1
+        var gr = l
 
         seq[forSwap] = seq[eq]
         seq[eq] = x
 
-        while (n < seq.size) {
+        while (n < r + 1) {
             if (seq[n] < x) {
                 forSwap = seq[n]
-                if (gr == -1) {
-                    seq[n] = seq[eq]
-                    seq[eq] = forSwap
-                } else {
-                    seq[n] = seq[gr]
-                    seq[gr] = seq[eq]
-                    seq[eq] = forSwap
-                    gr++
-                }
+                seq[n] = seq[gr]
+                seq[gr] = seq[eq]
+                seq[eq] = forSwap
+                gr++
                 eq++
             } else if (seq[n] == x) {
                 forSwap = seq[n]
-                if (gr != -1) {
-                    seq[n] = seq[gr]
-                    seq[gr] = forSwap
-                    gr++
-                }
-            } else if (seq[n] > x && gr == -1) {
-                gr = n
+                seq[n] = seq[gr]
+                seq[gr] = forSwap
+                gr++
             }
             n++
         }
-        partitionReq(l, eq, seq)
-        if (gr != -1)
+        if (eq - l + 1 > 1)
+            partitionReq(l, eq, seq)
+        if (r - gr + 1 > 1)
             partitionReq(gr, r, seq)
     }
 }
@@ -93,5 +85,90 @@ fun quickSort() {
 
         partitionReq(0, seq.size - 1, seq)
         println(seq.joinToString(" "))
+    }
+}
+
+fun merge() {
+    val n = readln().toInt()
+    val firstStr = readln()
+    val m = readln().toInt()
+    val secStr = readln()
+    if (firstStr.isNotEmpty()) {
+        if (secStr.isNotEmpty()) {
+            val ansList = mutableListOf<Int>()
+            val firstList = firstStr.split(" ").map { it.toInt() }
+            val secList = secStr.split(" ").map { it.toInt() }
+            var first = 0
+            var sec = 0
+
+            while (first < firstList.size && sec < secList.size) {
+                if (firstList[first] <= secList[sec]) {
+                    ansList.add(firstList[first])
+                    first++
+                } else {
+                    ansList.add(secList[sec])
+                    sec++
+                }
+            }
+            while (first < firstList.size) {
+                ansList.add(firstList[first])
+                first++
+            }
+            while (sec < secList.size) {
+                ansList.add(secList[sec])
+                sec++
+            }
+            println(ansList.joinToString(" "))
+        } else {
+            println(firstStr)
+        }
+    } else if (secStr.isNotEmpty()) {
+        println(secStr)
+    }
+}
+
+fun mergeReq(
+    list: List<Int>
+): MutableList<Int> {
+
+    val ansList = mutableListOf<Int>()
+
+    if (list.size == 1)
+        return ansList.also { it.add(list[0]) }
+
+    val leftList = mergeReq(list.subList(0, (list.size-1) / 2 + 1))
+    val rightList = mergeReq(list.subList((list.size-1) / 2 + 1, list.size))
+
+    var leftPoint = 0
+    var rightPoint = 0
+
+    while (leftPoint < leftList.size && rightPoint < rightList.size) {
+        if (leftList[leftPoint] <= rightList[rightPoint]) {
+            ansList.add(leftList[leftPoint])
+            leftPoint++
+        } else {
+            ansList.add(rightList[rightPoint])
+            rightPoint++
+        }
+    }
+    while (leftPoint < leftList.size) {
+        ansList.add(leftList[leftPoint])
+        leftPoint++
+    }
+    while (rightPoint < rightList.size) {
+        ansList.add(rightList[rightPoint])
+        rightPoint++
+    }
+
+
+    return ansList
+}
+
+fun mergeSort() {
+    val n = readln().toInt()
+    if (n != 0) {
+        val list = readln().split(" ").map { it.toInt() }
+
+        println(mergeReq(list).joinToString(" "))
     }
 }
