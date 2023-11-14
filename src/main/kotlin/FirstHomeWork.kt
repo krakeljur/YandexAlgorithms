@@ -172,3 +172,85 @@ fun mergeSort() {
         println(mergeReq(list).joinToString(" "))
     }
 }
+
+
+// Код работает, но нечитаем, можно реализовать приятнее
+fun radixSort() {
+
+    val n = readln().toInt()
+    val originalList = mutableListOf<String>()
+    val bucket0 = mutableListOf<String>()
+    val bucket1 = mutableListOf<String>()
+    val bucket2 = mutableListOf<String>()
+    val bucket3 = mutableListOf<String>()
+    val bucket4 = mutableListOf<String>()
+    val bucket5 = mutableListOf<String>()
+    val bucket6 = mutableListOf<String>()
+    val bucket7 = mutableListOf<String>()
+    val bucket8 = mutableListOf<String>()
+    val bucket9 = mutableListOf<String>()
+    var phasesCount = 0
+
+    for (i in 0..<n) {
+        val numString = readln()
+        if (phasesCount < numString.length)
+            phasesCount = numString.length
+        originalList.add(numString)
+    }
+    println("Initial array:")
+    println(originalList.joinToString(", "))
+    println("**********")
+
+    for (i in phasesCount-1 downTo 0) {
+        for (j in 0..<originalList.size) {
+            when (originalList[j][i]) {
+                '0' -> bucket0.add(originalList[j])
+                '1' -> bucket1.add(originalList[j])
+                '2' -> bucket2.add(originalList[j])
+                '3' -> bucket3.add(originalList[j])
+                '4' -> bucket4.add(originalList[j])
+                '5' -> bucket5.add(originalList[j])
+                '6' -> bucket6.add(originalList[j])
+                '7' -> bucket7.add(originalList[j])
+                '8' -> bucket8.add(originalList[j])
+                '9' -> bucket9.add(originalList[j])
+            }
+        }
+        println("Phase ${(i - phasesCount) * (-1)}")
+        println("Bucket 0: ${if (bucket0.isEmpty()) "empty" else bucket0.joinToString(", ")}")
+        println("Bucket 1: ${if (bucket1.isEmpty()) "empty" else bucket1.joinToString(", ")}")
+        println("Bucket 2: ${if (bucket2.isEmpty()) "empty" else bucket2.joinToString(", ")}")
+        println("Bucket 3: ${if (bucket3.isEmpty()) "empty" else bucket3.joinToString(", ")}")
+        println("Bucket 4: ${if (bucket4.isEmpty()) "empty" else bucket4.joinToString(", ")}")
+        println("Bucket 5: ${if (bucket5.isEmpty()) "empty" else bucket5.joinToString(", ")}")
+        println("Bucket 6: ${if (bucket6.isEmpty()) "empty" else bucket6.joinToString(", ")}")
+        println("Bucket 7: ${if (bucket7.isEmpty()) "empty" else bucket7.joinToString(", ")}")
+        println("Bucket 8: ${if (bucket8.isEmpty()) "empty" else bucket8.joinToString(", ")}")
+        println("Bucket 9: ${if (bucket9.isEmpty()) "empty" else bucket9.joinToString(", ")}")
+        println("**********")
+        originalList.clear()
+        originalList.addAll(bucket0)
+        originalList.addAll(bucket1)
+        originalList.addAll(bucket2)
+        originalList.addAll(bucket3)
+        originalList.addAll(bucket4)
+        originalList.addAll(bucket5)
+        originalList.addAll(bucket6)
+        originalList.addAll(bucket7)
+        originalList.addAll(bucket8)
+        originalList.addAll(bucket9)
+
+        bucket0.clear()
+        bucket1.clear()
+        bucket2.clear()
+        bucket3.clear()
+        bucket4.clear()
+        bucket5.clear()
+        bucket6.clear()
+        bucket7.clear()
+        bucket8.clear()
+        bucket9.clear()
+    }
+    println("Sorted array:")
+    println(originalList.joinToString(", "))
+}
