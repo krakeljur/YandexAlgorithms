@@ -1,3 +1,5 @@
+import kotlin.math.min
+
 fun substringEqual() {
 
     val s = readln().toCharArray().map { it.code.toLong() }
@@ -167,7 +169,10 @@ fun mirror() {
 
 }
 
-fun subPalindromes() {
+
+
+// дорешать!!! проблема со сравнением хэшей (вроде бы )) )
+/*fun subPalindromes() {
 
     val p = 1_000_000_007
     val x = 257
@@ -181,21 +186,37 @@ fun subPalindromes() {
 
     var counter = 0
 
-    val s = readln().toCharArray().also { counter = it.size }.joinToString("#").toCharArray().map { it.code.toLong() }
+    val s =
+        readln().toCharArray()*//*.also { counter = it.size }*//*.joinToString("#").toCharArray().map { it.code.toLong() }
 
     for (i in s.indices) {
         hashList.add((hashList[i] * x + s[i]) % p)
         xList.add((xList[i] * x) % p)
-        hashListRev.add((hashListRev[i] * 10 + s[s.size - 1 - i]) % p)
+        hashListRev.add((hashListRev[i] * x + s[s.size - 1 - i]) % p)
     }
 
+    println(s.joinToString(" "))
+    println(hashList.joinToString("->"))
+    println(hashListRev.joinToString("<-"))
 
+    for (i in 1..<hashList.size-1) {
+        var left = 0 // минимальная длинна палиндрома
+        var right = min(i-1, hashList.size-1-i) // выбираем максимальный размер длины палиндрома (упираемся в ближайшую границу)
 
-    for (i in 2..<hashList.size) {
-        //TODO("БИНПОИСК НА НАИБОЛЬШИЙ ПАЛИНДРОМ С ЦЕНТРОМ В ЭТОЙ ТОЧКЕ")
+        if (
+            (hashList[i+right]+hashListRev[hashList.size-1-i]*xList[right]) % p ==
+            (hashListRev[hashList.size-1-i+right] + hashList[i]*xList[right]) % p
+        ) {
+            println("$i  ------- right == maxLength")
+            counter += if (s[i-1] == 35.toLong()) (right + 1)/2 else right/2
+        } else {
+            println("$i****$left****$right")
+            println("${(hashList[i+right]+hashListRev[hashList.size-1-i]*xList[right]) % p}\n${(hashListRev[hashList.size-1-i+right] + hashList[i]*xList[right]) % p}")
+            *//*while (left < right) {
 
+            }*//*
+        }
     }
-
     println(counter)
+}*/
 
-}
