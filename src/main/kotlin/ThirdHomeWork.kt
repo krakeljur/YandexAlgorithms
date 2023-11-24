@@ -204,3 +204,24 @@ fun busesInTheVillage() {
         println(if (time[finish] == 3_000_000_000_000_000_000L) "-1" else time[finish].toString())
     } else println("0")
 }
+
+/*   ДОДЕЛАТЬ, ИДЕЯ В БФС ИЛИ ДФС!!!
+fun sled() {
+
+    val n = readln().trim().toInt()
+    val sledsSpeed = MutableList(n+1) {Pair(-1, -1)}
+    val roads = MutableList<MutableList<Pair<Int, Int>>>(n + 1) { mutableListOf() }
+    val time = MutableList(n + 1) { 3_000_000_000_000_000_000L }
+    val prevs = MutableList<>(n + 1) { mutableListOf() }
+
+    for (i in 1..n) {
+        val (t, v) = readln().trim().split(" ").map { it.toInt() }
+        sledsSpeed[i] = Pair(t, v)
+    }
+
+    for (i in 1..<n) {
+
+    }
+
+
+}*/
