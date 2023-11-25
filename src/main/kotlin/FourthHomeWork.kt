@@ -1,4 +1,3 @@
-
 fun rearrangement() {
 
     val n = readln().trim().toInt()
@@ -172,13 +171,13 @@ fun reqCourier(
     n: Int,
     isUse: MutableList<Boolean>,
     matrix: MutableList<List<Int>>
-) : Int {
+): Int {
     var min = 0
     for (i in 2..<isUse.size) {
 
         if (!isUse[i]) {
             isUse[i] = true
-            prevs.add(i-1)
+            prevs.add(i - 1)
             if (prevs.size == isUse.size - 2) {
                 val newWay = prevs.joinToString("")
                 var thisWay = matrix[0][newWay[0].digitToInt()]
@@ -190,7 +189,7 @@ fun reqCourier(
                             return 0
                         }
                     }
-                        thisWay += matrix[newWay.last().digitToInt()][0]
+                    thisWay += matrix[newWay.last().digitToInt()][0]
                     if ((min < thisWay && min == 0) || (min > thisWay))
                         min = thisWay
                 }
@@ -204,5 +203,107 @@ fun reqCourier(
     }
     return min
 }
+
+//ДОДЕЛТЬ
+/*fun correctBrackets() {
+    val n = readln().trim().toInt()
+    val ansList = mutableListOf<String>()
+    val stack = mutableListOf<Char>()
+    val prevs =  mutableListOf<Char>()
+
+    if (n % 2 == 1)
+        println()
+    else {
+
+        reqGenerateBrackets(prevs, n, stack, ansList)
+
+        if (ansList.isNotEmpty())
+            println(ansList.joinToString("\n"))
+    }
+
+
+}
+
+fun reqGenerateBrackets(
+    prevs: MutableList<Char>,
+    n: Int,
+    stack: MutableList<Char>,
+    ansList: MutableList<String>,
+    startI: Int = 1,
+    countOpenBrackets: Int = 0
+) {
+
+    var openBrackets = countOpenBrackets
+    for (i in startI..n) {
+
+        if ((n-i) <= stack.size) {
+            prevs.add('(')
+            stack.add('(')
+            openBrackets++
+            reqGenerateBrackets(prevs, n, stack, ansList, startI + 1, openBrackets)
+            prevs.removeLast()
+            stack.removeLast()
+            prevs.add('[')
+            stack.add('[')
+            reqGenerateBrackets(prevs, n, stack, ansList, startI + 1, openBrackets)
+            prevs.removeLast()
+            stack.removeLast()
+            openBrackets--
+            if (stack.isNotEmpty() && stack.last() == '(') {
+                stack.removeLast()
+                prevs.add(')')
+                if (prevs.size == n) {
+                    ansList.add(prevs.joinToString(""))
+                    if (ansList.size >= 10000) {
+                        println(ansList.joinToString("\n"))
+                        ansList.clear()
+                    }
+                }
+                reqGenerateBrackets(prevs, n, stack, ansList, startI + 1, openBrackets)
+            } else if (stack.isNotEmpty() && stack.last() == '[') {
+                stack.removeLast()
+                prevs.add(']')
+                if (prevs.size == n) {
+                    ansList.add(prevs.joinToString(""))
+                    if (ansList.size >= 10000) {
+                        println(ansList.joinToString("\n"))
+                        ansList.clear()
+                    }
+                }
+                reqGenerateBrackets(prevs, n, stack, ansList, startI + 1, openBrackets)
+            }
+        } else {
+            println(stack.joinToString(" "))
+            when (stack.last()) {
+                '(' -> {
+                    stack.removeLast()
+                    prevs.add(')')
+                }
+                '[' -> {
+                    stack.removeLast()
+                    prevs.add(']')
+                }
+            }
+            if (prevs.size == n) {
+                ansList.add(prevs.joinToString(""))
+                if (ansList.size >= 10000) {
+                    println(ansList.joinToString("\n"))
+                    ansList.clear()
+                }
+            }
+            reqGenerateBrackets(prevs, n, stack, ansList, startI + 1, openBrackets)
+        }
+
+*//*        //add bracket
+        if (prevs.size == n) {
+            ansList.add(prevs.joinToString(""))
+            if (ansList.size >= 10000) {
+                println(ansList.joinToString("\n"))
+                ansList.clear()
+            }
+        }*//*
+
+    }
+}*/
 
 
